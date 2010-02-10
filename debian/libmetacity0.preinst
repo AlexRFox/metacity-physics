@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+# clean up doc directory symlinking from Gutsy
+if [ "$1" = install ] || [ "$1" = upgrade ]; then
+    if dpkg --compare-versions "$2" lt-nl 1:2.21.2; then
+            [ -e "/usr/share/doc/libmetacity0" ] && rm -f /usr/share/doc/libmetacity0 || true
+    fi
+fi
+
+#DEBHELPER#

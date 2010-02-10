@@ -1,0 +1,45 @@
+#
+# Ubuntu: https://bugs.launchpad.net/bugs/178953
+# Upstream: http://bugzilla.gnome.org/show_bug.cgi?id=530702
+# Patch: http://bugzilla.gnome.org/attachment.cgi?id=141537
+# Description: fix metacity to give up the compositing manager 
+#
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/src/core/screen.c metacity-2.27.1.new/src/core/screen.c
+--- metacity-2.27.1/src/core/screen.c	2009-09-09 06:55:35.000000000 +1000
++++ metacity-2.27.1.new/src/core/screen.c	2009-09-10 16:47:03.000000000 +1000
+@@ -2791,11 +2791,14 @@
+   char selection[32];
+   Atom a;
+ 
++  screen->wm_cm_timestamp = meta_display_get_current_time_roundtrip (
++                                                               screen->display);
++
+   g_snprintf (selection, sizeof(selection), "_NET_WM_CM_S%d", screen->number);
+   meta_verbose ("Setting selection: %s\n", selection);
+   a = XInternAtom (screen->display->xdisplay, selection, FALSE);
+   XSetSelectionOwner (screen->display->xdisplay, a, 
+-                      screen->wm_cm_selection_window, CurrentTime);
++                      screen->wm_cm_selection_window, screen->wm_cm_timestamp);
+ }
+ 
+ void
+@@ -2806,6 +2809,7 @@
+ 
+   g_snprintf (selection, sizeof(selection), "_NET_WM_CM_S%d", screen->number);
+   a = XInternAtom (screen->display->xdisplay, selection, FALSE);
+-  XSetSelectionOwner (screen->display->xdisplay, a, None, CurrentTime);
++  XSetSelectionOwner (screen->display->xdisplay, a,
++                      None, screen->wm_cm_timestamp);
+ }
+ #endif /* HAVE_COMPOSITE_EXTENSIONS */
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/src/core/screen-private.h metacity-2.27.1.new/src/core/screen-private.h
+--- metacity-2.27.1/src/core/screen-private.h	2009-09-09 06:55:35.000000000 +1000
++++ metacity-2.27.1.new/src/core/screen-private.h	2009-09-10 16:47:03.000000000 +1000
+@@ -113,6 +113,7 @@
+ 
+ #ifdef HAVE_COMPOSITE_EXTENSIONS
+   Window wm_cm_selection_window;
++  guint32 wm_cm_timestamp;
+ #endif
+ 
+   guint work_area_idle;

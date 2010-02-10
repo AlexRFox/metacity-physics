@@ -1,0 +1,24 @@
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/configure metacity-2.27.1.new/configure
+--- metacity-2.27.1/configure	2009-09-09 06:57:05.000000000 +1000
++++ metacity-2.27.1.new/configure	2009-09-10 16:46:52.000000000 +1000
+@@ -15689,7 +15689,7 @@
+ 
+ # Warnings are there for a reason
+ if test "x$GCC" = "xyes"; then
+-  CFLAGS="$CFLAGS -Wall -Werror -ansi"
++  CFLAGS="$CFLAGS -Wall -ansi"
+ fi
+ 
+ # Use gnome-doc-utils:
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/configure.in metacity-2.27.1.new/configure.in
+--- metacity-2.27.1/configure.in	2009-09-09 06:55:35.000000000 +1000
++++ metacity-2.27.1.new/configure.in	2009-09-10 16:46:52.000000000 +1000
+@@ -499,7 +499,7 @@
+ 
+ # Warnings are there for a reason
+ if test "x$GCC" = "xyes"; then
+-  CFLAGS="$CFLAGS -Wall -Werror -ansi"
++  CFLAGS="$CFLAGS -Wall -ansi"
+ fi
+ 
+ # Use gnome-doc-utils:

@@ -1,0 +1,15 @@
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/src/core/prefs.c metacity-2.27.1.new/src/core/prefs.c
+--- metacity-2.27.1/src/core/prefs.c	2009-09-10 16:46:24.000000000 +1000
++++ metacity-2.27.1.new/src/core/prefs.c	2009-09-10 16:46:24.000000000 +1000
+@@ -1258,10 +1258,7 @@
+ gboolean
+ meta_prefs_get_raise_on_click (void)
+ {
+-  /* Force raise_on_click on for click-to-focus, as requested by Havoc
+-   * in #326156.
+-   */
+-  return raise_on_click || focus_mode == META_FOCUS_MODE_CLICK;
++  return raise_on_click;
+ }
+ 
+ const char*

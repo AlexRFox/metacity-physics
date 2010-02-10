@@ -1,0 +1,12 @@
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/src/metacity.schemas.in metacity-2.27.1.new/src/metacity.schemas.in
+--- metacity-2.27.1/src/metacity.schemas.in	2009-09-09 07:07:12.000000000 +1000
++++ metacity-2.27.1.new/src/metacity.schemas.in	2009-09-10 16:46:37.000000000 +1000
+@@ -1348,7 +1348,7 @@
+       <applyto>/apps/metacity/window_keybindings/move_to_workspace_12</applyto>
+       <owner>metacity</owner>
+       <type>string</type>
+-      <default>disabled</default>
++      <default>&lt;Shift&gt;&lt;Alt&gt;Tab</default>
+       <locale name="C">
+         <short>Move window to workspace 12</short>
+         <long>The format looks like &quot;&lt;Control&gt;a&quot; or &quot;&lt;Shift&gt;&lt;Alt&gt;F1&quot;.

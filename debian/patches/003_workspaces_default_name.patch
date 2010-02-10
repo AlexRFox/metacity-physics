@@ -1,0 +1,78 @@
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/src/core/prefs.c metacity-2.27.1.new/src/core/prefs.c
+--- metacity-2.27.1/src/core/prefs.c	2009-09-10 16:46:11.000000000 +1000
++++ metacity-2.27.1.new/src/core/prefs.c	2009-09-10 16:46:12.000000000 +1000
+@@ -1973,7 +1973,7 @@
+ #else
+   int i;
+   for (i = 0; i < MAX_REASONABLE_WORKSPACES; i++)
+-    workspace_names[i] = g_strdup_printf (_("Workspace %d"), i + 1);
++    workspace_names[i] = g_strdup_printf (_("Desk %d"), i + 1);
+ 
+   meta_topic (META_DEBUG_PREFS,
+               "Initialized workspace names\n");
+@@ -2476,7 +2476,7 @@
+       /* use a default name */
+       char *d;
+ 
+-      d = g_strdup_printf (_("Workspace %d"), i + 1);
++      d = g_strdup_printf (_("Desk %d"), i + 1);
+       if (workspace_names[i] && strcmp (workspace_names[i], d) == 0)
+         {
+           g_free (d);
+@@ -2522,7 +2522,7 @@
+   g_return_if_fail (i >= 0 && i < MAX_REASONABLE_WORKSPACES);
+ 
+   meta_topic (META_DEBUG_PREFS,
+-              "Changing name of workspace %d to %s\n",
++              "Changing name of Desk %d to %s\n",
+               i, name ? name : "none");
+ 
+   /* This is a bad hack. We have to treat empty string as
+@@ -2538,7 +2538,7 @@
+       (name && workspace_names[i] && strcmp (name, workspace_names[i]) == 0))
+     {
+       meta_topic (META_DEBUG_PREFS,
+-                  "Workspace %d already has name %s\n",
++                  "Desk %d already has name %s\n",
+                   i, name ? name : "none");
+       return;
+     }
+@@ -2557,7 +2557,7 @@
+   
+   if (err)
+     {
+-      meta_warning (_("Error setting name for workspace %d to \"%s\": %s\n"),
++      meta_warning (_("Error setting name for Desk %d to \"%s\": %s\n"),
+                     i, name ? name : "none",
+                     err->message);
+       g_error_free (err);
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/src/ui/menu.c metacity-2.27.1.new/src/ui/menu.c
+--- metacity-2.27.1/src/ui/menu.c	2009-09-09 06:55:35.000000000 +1000
++++ metacity-2.27.1.new/src/ui/menu.c	2009-09-10 16:46:12.000000000 +1000
+@@ -195,12 +195,12 @@
+   g_assert (name != NULL);
+   
+   /*
+-   * If the name is of the form "Workspace x" where x is an unsigned
++   * If the name is of the form "Desk x" where x is an unsigned
+    * integer, insert a '_' before the number if it is less than 10 and
+    * return it
+    */
+   number = 0;
+-  if (sscanf (name, _("Workspace %d%n"), &number, &charcount) != 0 &&
++  if (sscanf (name, _("Desk %d%n"), &number, &charcount) != 0 &&
+       *(name + charcount)=='\0')
+     {
+       char *new_name;
+@@ -210,9 +210,9 @@
+        * a copy copy so we can have our wicked way with it.
+        */
+       if (number == 10)
+-        new_name = g_strdup_printf (_("Workspace 1_0"));
++        new_name = g_strdup_printf (_("Desk 1_0"));
+       else
+-        new_name = g_strdup_printf (_("Workspace %s%d"),
++        new_name = g_strdup_printf (_("Desk %s%d"),
+                                     number < 10 ? "_" : "",
+                                     number);
+       return new_name;

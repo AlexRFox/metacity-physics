@@ -1,0 +1,60 @@
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/src/core/display.c metacity-2.27.1.new/src/core/display.c
+--- metacity-2.27.1/src/core/display.c	2009-09-09 06:55:35.000000000 +1000
++++ metacity-2.27.1.new/src/core/display.c	2009-09-10 16:46:01.000000000 +1000
+@@ -1821,6 +1821,7 @@
+         {
+           switch (meta_prefs_get_focus_mode ())
+             {
++            case META_FOCUS_MODE_STRICT:
+             case META_FOCUS_MODE_SLOPPY:
+             case META_FOCUS_MODE_MOUSE:
+               display->mouse_mode = TRUE;
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/src/core/prefs.c metacity-2.27.1.new/src/core/prefs.c
+--- metacity-2.27.1/src/core/prefs.c	2009-09-09 06:55:35.000000000 +1000
++++ metacity-2.27.1.new/src/core/prefs.c	2009-09-10 16:46:01.000000000 +1000
+@@ -176,6 +176,7 @@
+     { META_FOCUS_MODE_CLICK,  "click" },
+     { META_FOCUS_MODE_SLOPPY, "sloppy" },
+     { META_FOCUS_MODE_MOUSE,  "mouse" },
++    { META_FOCUS_MODE_STRICT, "strict" },
+     { 0, NULL },
+   };
+ 
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/src/core/window.c metacity-2.27.1.new/src/core/window.c
+--- metacity-2.27.1/src/core/window.c	2009-09-09 06:55:35.000000000 +1000
++++ metacity-2.27.1.new/src/core/window.c	2009-09-10 16:46:01.000000000 +1000
+@@ -2296,7 +2296,7 @@
+   if (window->showing_for_first_time)
+     {
+       window->showing_for_first_time = FALSE;
+-      if (takes_focus_on_map)
++      if (takes_focus_on_map && meta_prefs_get_focus_mode () != META_FOCUS_MODE_STRICT)
+         {                
+           meta_window_focus (window, timestamp);
+         }
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/src/core/workspace.c metacity-2.27.1.new/src/core/workspace.c
+--- metacity-2.27.1/src/core/workspace.c	2009-09-09 06:55:35.000000000 +1000
++++ metacity-2.27.1.new/src/core/workspace.c	2009-09-10 16:46:01.000000000 +1000
+@@ -922,7 +922,8 @@
+         }
+       else if (meta_prefs_get_focus_mode () == META_FOCUS_MODE_SLOPPY)
+         focus_ancestor_or_mru_window (workspace, not_this_one, timestamp);
+-      else if (meta_prefs_get_focus_mode () == META_FOCUS_MODE_MOUSE)
++      else if (meta_prefs_get_focus_mode () == META_FOCUS_MODE_MOUSE ||
++               meta_prefs_get_focus_mode () == META_FOCUS_MODE_STRICT)
+         {
+           meta_topic (META_DEBUG_FOCUS,
+                       "Setting focus to no_focus_window, since no valid "
+diff -Nur -x '*.orig' -x '*~' metacity-2.27.1/src/include/common.h metacity-2.27.1.new/src/include/common.h
+--- metacity-2.27.1/src/include/common.h	2009-09-09 06:55:35.000000000 +1000
++++ metacity-2.27.1.new/src/include/common.h	2009-09-10 16:46:01.000000000 +1000
+@@ -161,7 +161,8 @@
+ {
+   META_FOCUS_MODE_CLICK,
+   META_FOCUS_MODE_SLOPPY,
+-  META_FOCUS_MODE_MOUSE
++  META_FOCUS_MODE_MOUSE,
++  META_FOCUS_MODE_STRICT
+ } MetaFocusMode;
+ 
+ typedef enum
