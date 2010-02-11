@@ -40,3 +40,7 @@ src/wm-tester/test-resizing
 src/wm-tester/test-size-hints
 src/wm-tester/wm-tester
 stamp-h1
+src/cfiles
+src/TAGS
+src/tools/TAGS
+src/wm-tester/TAGS
