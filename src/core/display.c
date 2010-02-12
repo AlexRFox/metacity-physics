@@ -1890,6 +1890,7 @@ event_callback (XEvent   *event,
               event->xcrossing.mode != NotifyGrab &&
               event->xcrossing.mode != NotifyUngrab &&
               !window->has_focus)
+            printf ("%s: %d: %s\n", __FILE__, __LINE__, __FUNCTION__);
             meta_window_lower (window);
         }
       break;

@@ -2,6 +2,7 @@
 *.gmo
 *.o
 *.lo
+\#*\#
 Makefile
 config.h
 config.log
