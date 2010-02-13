@@ -5336,14 +5336,13 @@ meta_window_notify_focus (MetaWindow *window,
        event->xfocus.detail > NotifyNonlinearVirtual))
     {
       if (event->xfocus.mode == NotifyGrab) {
-        window->mousestartx = window->display->grab_latest_motion_x;
-        window->mousestarty = window->display->grab_latest_motion_y;
-        window->mousestartt = get_secs ();
+        window->velx = 0;
+        window->vely = 0;
+        window->speed = 0;
+        window->phys_state = 1;
       }
       else if (event->xfocus.mode == NotifyUngrab) {
-        window->mouseendx = window->display->grab_latest_motion_x;
-        window->mouseendy = window->display->grab_latest_motion_y;
-        window->mouseendt = get_secs ();
+        window->phys_state = 2;
       }
 
       meta_topic (META_DEBUG_FOCUS,
@@ -7403,8 +7402,6 @@ meta_window_handle_mouse_grab_op_event (MetaWindow *window,
   switch (event->type)
     {
     case ButtonRelease:
-      window->phys_state = 1;      
-
       meta_display_check_threshold_reached (window->display,
                                             event->xbutton.x_root,
                                             event->xbutton.y_root);
@@ -7448,10 +7445,11 @@ meta_window_handle_mouse_grab_op_event (MetaWindow *window,
               if (check_use_this_motion_notify (window,
                                                 event)) {
                 MetaRectangle rect;
-
-                window->phys_state = 0;
+                meta_window_get_client_root_coords (window, &rect);
+                window->lastx = rect.x;
+                window->lasty = rect.y;
                 window->lasttimemouse = get_secs ();
-                
+
                 update_move (window,
                              event->xmotion.state & ShiftMask,
                              event->xmotion.x_root,

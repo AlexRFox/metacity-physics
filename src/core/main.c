@@ -435,10 +435,9 @@ alex_window (gpointer spec, gpointer user_data)
   MetaWindow *window = spec;
   MetaRectangle rect;
   MetaFrameGeometry geomp;
-  double now, dt;
+  double now, dt, dx, dy, inst_vel, time_const, factor;
   int left, top, right, bottom, newx, newy, screenx, screeny, bounce_flag;
   static double velx, vely;
-  struct vect v1;
 
   now = get_secs ();
   dt = now - window->lasttime;
@@ -459,20 +458,40 @@ alex_window (gpointer spec, gpointer user_data)
 
   switch (window->phys_state) {
   case 1:
-    v1.x = window->mouseendx - window->mousestartx;
-    v1.y = window->mouseendy - window->mousestarty;
+    time_const = dt;
+    
+    dx = rect.x - window->lastx;
+    inst_vel = (dx / dt);
+    factor = dt / time_const;
+    if (factor < 0)
+      factor = 0;
+    if (factor > 1)
+      factor = 1;
+    velx = velx * (1 - factor) + inst_vel * factor;
 
-    window->theta = atan2 (v1.y, v1.x);
-    window->speed = hypot (v1.y, v1.x) / (window->mouseendt - window->mousestartt);
+    dy = rect.y - window->lasty;
+    inst_vel = (dy / dt);
+    factor = dt / time_const;
+    if (factor < 0)
+      factor = 0;
+    if (factor > 1)
+      factor = 1;
+    vely = vely * (1 - factor) + inst_vel * factor;
 
-    if (window->speed < 20 || now - window->lasttimemouse > .1) {
+    window->theta = atan2 (vely, velx);
+    window->speed = hypot (vely, velx);
+    break;
+  case 2:
+    if (now - window->lasttimemouse > .1) {
       window->speed = 0;
+      window->velx = 0;
+      window->vely = 0;
       window->phys_state = 0;
       break;
     }
 
-    window->phys_state = 2;
-  case 2:
+    window->phys_state = 3;
+  case 3:
     bounce_flag = 0;
 
     velx = window->speed * cos (window->theta);

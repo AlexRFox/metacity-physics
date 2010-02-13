@@ -85,9 +85,8 @@ typedef enum {
 
 struct _MetaWindow
 {
-  double lasttime, theta, speed, velx, vely, mousestartt, mouseendt,
-    lasttimemouse;
-  int phys_state, lastx, lasty, mousestartx, mousestarty, mouseendx, mouseendy;
+  double lasttime, theta, speed, velx, vely, lasttimemouse;
+  int phys_state, lastx, lasty;
 
   MetaDisplay *display;
   MetaScreen *screen;
