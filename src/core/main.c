@@ -435,7 +435,6 @@ alex_window (gpointer spec, gpointer user_data)
   MetaWindow *window = spec;
   MetaRectangle rect;
   MetaFrameGeometry geomp;
-  /*  double now, dt, dx, dy, inst_vel, time_const, factor;*/
   double now, dt;
   int left, top, right, bottom, newx, newy, screenx, screeny, bounce_flag;
   static double velx, vely;
@@ -460,47 +459,23 @@ alex_window (gpointer spec, gpointer user_data)
 
   switch (window->phys_state) {
   case 1:
-    break;
-    /*    time_const = .01;
+    printf ("%d, %d\n%d, %d\n\n", window->curx, window->cury,
+            window->lastx, window->lasty);
 
-    dx = rect.x - window->lastx;
-    inst_vel = (dx / dt);
-    factor = dt / time_const;
-    if (factor < 0)
-      factor = 0;
-    if (factor > 1)
-      factor = 1;
-    velx = velx * (1 - factor) + inst_vel * factor;
-
-    dy = rect.y - window->lasty;
-    inst_vel = (dy / dt);
-    factor = dt / time_const;
-    if (factor < 0)
-      factor = 0;
-    if (factor > 1)
-      factor = 1;
-      vely = vely * (1 - factor) + inst_vel * factor;
-
-    window->theta = atan2 (vely, velx);
-    window->speed = hypot (vely, velx);
-
-    window->lastx = rect.x;
-    window->lasty = rect.y;*/
-    break;
-  case 2:
     v1.x = window->mouseendx - window->mousestartx;
     v1.y = window->mouseendy - window->mousestarty;
 
     window->theta = atan2 (v1.y, v1.x);
     window->speed = hypot (v1.y, v1.x) / (window->mouseendt - window->mousestartt);
 
-    if (window->speed < 20) {
+    if (window->speed < 20 || now - window->lasttimemouse > .1) {
+      window->speed = 0;
       window->phys_state = 0;
       break;
     }
 
-    window->phys_state = 3;
-  case 3:
+    window->phys_state = 2;
+  case 2:
     bounce_flag = 0;
 
     velx = window->speed * cos (window->theta);
@@ -541,7 +516,7 @@ alex_window (gpointer spec, gpointer user_data)
 
     if (bottom + vely * dt >= screeny - 25) {
       meta_window_move (window, TRUE, newx, screeny - 25 - geomp.bottom_height - rect.height);
-      
+
       window->theta = atan2 (-vely, velx);
       window->speed -= 200;
 
@@ -558,9 +533,6 @@ alex_window (gpointer spec, gpointer user_data)
     }
     
     window->speed -= 1000 * dt;
-
-    window->lastx = rect.x;
-    window->lasty = rect.y;
     break;
   }
 }

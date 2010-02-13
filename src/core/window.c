@@ -7403,7 +7403,7 @@ meta_window_handle_mouse_grab_op_event (MetaWindow *window,
   switch (event->type)
     {
     case ButtonRelease:
-      window->phys_state = 2;
+      window->phys_state = 1;      
 
       meta_display_check_threshold_reached (window->display,
                                             event->xbutton.x_root,
@@ -7446,16 +7446,25 @@ meta_window_handle_mouse_grab_op_event (MetaWindow *window,
           if (event->xmotion.root == window->screen->xroot)
             {
               if (check_use_this_motion_notify (window,
-                                                event))
-                /*                window->phys_state = 1;
-                window->velx = 0;
-                window->vely = 0;
-                window->speed = 0;*/
+                                                event)) {
+                MetaRectangle rect;
 
+                window->phys_state = 0;
+                window->lasttimemouse = get_secs ();
+
+                meta_window_get_client_root_coords (window, &rect);
+
+                window->lastx = window->curx;
+                window->lasty = window->cury;
+                
+                window->curx = rect.x;
+                window->cury = rect.y;
+                
                 update_move (window,
                              event->xmotion.state & ShiftMask,
                              event->xmotion.x_root,
                              event->xmotion.y_root);
+              }
             }
         }
       else if (meta_grab_op_is_resizing (window->display->grab_op))
