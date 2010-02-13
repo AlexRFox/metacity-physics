@@ -87,8 +87,7 @@ struct _MetaWindow
 {
   double lasttime, theta, speed, velx, vely, mousestartt, mouseendt,
     lasttimemouse;
-  int phys_state, lastx, lasty, mousestartx, mousestarty, mouseendx, mouseendy,
-    curx, cury;
+  int phys_state, lastx, lasty, mousestartx, mousestarty, mouseendx, mouseendy;
 
   MetaDisplay *display;
   MetaScreen *screen;

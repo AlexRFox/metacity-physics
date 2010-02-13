@@ -7451,14 +7451,6 @@ meta_window_handle_mouse_grab_op_event (MetaWindow *window,
 
                 window->phys_state = 0;
                 window->lasttimemouse = get_secs ();
-
-                meta_window_get_client_root_coords (window, &rect);
-
-                window->lastx = window->curx;
-                window->lasty = window->cury;
-                
-                window->curx = rect.x;
-                window->cury = rect.y;
                 
                 update_move (window,
                              event->xmotion.state & ShiftMask,

@@ -459,9 +459,6 @@ alex_window (gpointer spec, gpointer user_data)
 
   switch (window->phys_state) {
   case 1:
-    printf ("%d, %d\n%d, %d\n\n", window->curx, window->cury,
-            window->lastx, window->lasty);
-
     v1.x = window->mouseendx - window->mousestartx;
     v1.y = window->mouseendy - window->mousestarty;
 
