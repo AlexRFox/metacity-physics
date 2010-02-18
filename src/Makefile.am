@@ -68,8 +68,10 @@ metacity_SOURCES= 				\
 	core/window-props.c			\
 	core/window-props.h			\
 	core/window.c				\
+	core/alexmod.c				\
 	core/window-private.h			\
 	include/window.h			\
+	include/alexmod.h			\
 	core/workspace.c			\
 	core/workspace.h			\
 	core/xprops.c				\

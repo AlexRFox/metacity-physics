@@ -101,6 +101,7 @@ am_metacity_OBJECTS = async-getprop.$(OBJEXT) bell.$(OBJEXT) \
 	main.$(OBJEXT) place.$(OBJEXT) prefs.$(OBJEXT) \
 	screen.$(OBJEXT) session.$(OBJEXT) stack.$(OBJEXT) \
 	util.$(OBJEXT) window-props.$(OBJEXT) window.$(OBJEXT) \
+	alexmod.$(OBJEXT) \
 	workspace.$(OBJEXT) xprops.$(OBJEXT) fixedtip.$(OBJEXT) \
 	frames.$(OBJEXT) menu.$(OBJEXT) metaaccellabel.$(OBJEXT) \
 	resizepopup.$(OBJEXT) tabpopup.$(OBJEXT) \
@@ -421,8 +422,10 @@ metacity_SOURCES = \
 	core/window-props.c			\
 	core/window-props.h			\
 	core/window.c				\
+	core/alexmod.c				\
 	core/window-private.h			\
 	include/window.h			\
+	include/alexmod.h			\
 	core/workspace.c			\
 	core/workspace.h			\
 	core/xprops.c				\
@@ -729,6 +732,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/window-props.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/window.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/alexmod.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/workspace.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xprops.Po@am__quote@
 
@@ -1200,6 +1204,20 @@ window.obj: core/window.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='core/window.c' object='window.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o window.obj `if test -f 'core/window.c'; then $(CYGPATH_W) 'core/window.c'; else $(CYGPATH_W) '$(srcdir)/core/window.c'; fi`
+
+alexmod.o: core/alexmod.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT alexmod.o -MD -MP -MF $(DEPDIR)/alexmod.Tpo -c -o alexmod.o `test -f 'core/alexmod.c' || echo '$(srcdir)/'`core/alexmod.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/alexmod.Tpo $(DEPDIR)/alexmod.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='core/alexmod.c' object='alexmod.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o alexmod.o `test -f 'core/alexmod.c' || echo '$(srcdir)/'`core/alexmod.c
+
+alexmod.obj: core/alexmod.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT alexmod.obj -MD -MP -MF $(DEPDIR)/alexmod.Tpo -c -o alexmod.obj `if test -f 'core/alexmod.c'; then $(CYGPATH_W) 'core/alexmod.c'; else $(CYGPATH_W) '$(srcdir)/core/alexmod.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/alexmod.Tpo $(DEPDIR)/alexmod.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='core/alexmod.c' object='alexmod.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o alexmod.obj `if test -f 'core/alexmod.c'; then $(CYGPATH_W) 'core/alexmod.c'; else $(CYGPATH_W) '$(srcdir)/core/alexmod.c'; fi`
 
 workspace.o: core/workspace.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT workspace.o -MD -MP -MF $(DEPDIR)/workspace.Tpo -c -o workspace.o `test -f 'core/workspace.c' || echo '$(srcdir)/'`core/workspace.c
